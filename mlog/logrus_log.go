@@ -11,9 +11,9 @@ var (
 	Logger *logrus.Logger
 )
 
-func InitLogrus(path, infoName, errorName, traceName string, level uint32) {
+func InitLogrus(path, infoName, errorName, traceName string, level uint32, caller bool) {
 	Logger = logrus.New()
-	Logger.SetReportCaller(true) // true 打印日志位置
+	Logger.SetReportCaller(caller) // true 打印日志位置,默认是false
 	Logger.SetFormatter(&logrus.JSONFormatter{})
 	Logger.SetLevel(logrus.Level(level))
 	Logger.AddHook(newRotateHook(path, infoName, errorName, traceName))
