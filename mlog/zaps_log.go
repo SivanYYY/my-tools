@@ -35,6 +35,14 @@ func Init(infoName, errorName string, maxSize, maxBackUp, maxAge int, level zapc
 		Compress:   true,
 	})
 
+	highPriority := zap.LevelEnablerFunc(func(lvl zapcore.Level) bool {
+		return lvl >= zap.ErrorLevel
+	})
+
+	lowPriority := zap.LevelEnablerFunc(func(lvl zapcore.Level) bool {
+		return lvl < zap.ErrorLevel && lvl >= zap.InfoLevel
+	})
+
 	encoderConfig := zapcore.EncoderConfig{
 		MessageKey:     "msg",
 		LevelKey:       "level",
@@ -54,13 +62,13 @@ func Init(infoName, errorName string, maxSize, maxBackUp, maxAge int, level zapc
 	infoCore := zapcore.NewCore(
 		zapcore.NewJSONEncoder(encoderConfig),
 		infoWriter,
-		zap.InfoLevel,
+		lowPriority,
 	)
 
 	errCore := zapcore.NewCore(
 		zapcore.NewJSONEncoder(encoderConfig),
 		errWriter,
-		zap.ErrorLevel,
+		highPriority,
 	)
 
 	logger := zap.New(zapcore.NewTee(infoCore, errCore), zap.AddCaller())
