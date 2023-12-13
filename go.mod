@@ -1,4 +1,4 @@
-module my-tools
+module github.com/SivanYYY/my-tools
 
 go 1.21
 
