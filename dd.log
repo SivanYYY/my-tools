@@ -1,0 +1,4 @@
+{"level":"debug","time":"2023-12-11T17:43:29.990+0800","caller":"/Users/kingym/soft/gopro/my-tools/mlog/zaps_log.go:47","func":"my-tools/mlog.Init","msg":"debug"}
+{"level":"info","time":"2023-12-11T17:43:29.995+0800","caller":"/Users/kingym/soft/gopro/my-tools/mlog/zaps_log.go:48","func":"my-tools/mlog.Init","msg":"debug"}
+{"level":"warn","time":"2023-12-11T17:43:29.995+0800","caller":"/Users/kingym/soft/gopro/my-tools/mlog/zaps_log.go:49","func":"my-tools/mlog.Init","msg":"debug"}
+{"level":"error","time":"2023-12-11T17:43:29.995+0800","caller":"/Users/kingym/soft/gopro/my-tools/mlog/zaps_log.go:50","func":"my-tools/mlog.Init","msg":"debug","stacktrace":"my-tools/mlog.Init\n\t/Users/kingym/soft/gopro/my-tools/mlog/zaps_log.go:50\nmain.main\n\t/Users/kingym/soft/gopro/my-tools/main.go:10\nruntime.main\n\t/usr/local/go/src/runtime/proc.go:267"}
