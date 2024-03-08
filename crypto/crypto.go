@@ -8,7 +8,6 @@ import (
 	"encoding/hex"
 	"encoding/pem"
 	"io"
-	"my-tools/mlog"
 	"os"
 )
 
@@ -37,7 +36,6 @@ func Md5Sum(filePath string) string {
 func GenerateRSAKey() ([]byte, []byte, error) {
 	privateKey, err := rsa.GenerateKey(rand.Reader, 2048)
 	if err != nil {
-		mlog.ZapLogger.Error("generate privateKey err", err)
 		return nil, nil, err
 	}
 
@@ -50,7 +48,6 @@ func GenerateRSAKey() ([]byte, []byte, error) {
 	publicKey := &privateKey.PublicKey
 	publicKeyBytes, err := x509.MarshalPKIXPublicKey(publicKey)
 	if err != nil {
-		mlog.ZapLogger.Error("generate publicKey err", err)
 		return nil, nil, err
 	}
 	publicKeyPem := pem.EncodeToMemory(&pem.Block{

@@ -15,13 +15,21 @@ const (
 	loggerId = iota + 1
 )
 
-func Init(infoName, errorName string, maxSize, maxBackUp, maxAge int, level zapcore.Level) {
+type ZapsLog struct {
+	LogPath string
+	Size    int
+	Backup  int
+	Age     int
+	Level   int
+}
+
+func Init(infoName, errorName string, maxSize, maxBackup, maxAge int) {
 
 	infoWriter := zapcore.AddSync(&lumberjack.Logger{
 		Filename:   infoName,
 		MaxSize:    maxSize, // 文件存储大小
 		MaxAge:     maxAge,
-		MaxBackups: maxBackUp,
+		MaxBackups: maxBackup,
 		LocalTime:  true,
 		Compress:   true,
 	})
@@ -30,7 +38,7 @@ func Init(infoName, errorName string, maxSize, maxBackUp, maxAge int, level zapc
 		Filename:   errorName,
 		MaxSize:    maxSize,
 		MaxAge:     maxAge,
-		MaxBackups: maxBackUp,
+		MaxBackups: maxBackup,
 		LocalTime:  true,
 		Compress:   true,
 	})
@@ -52,11 +60,13 @@ func Init(infoName, errorName string, maxSize, maxBackUp, maxAge int, level zapc
 		FunctionKey:    "func",
 		StacktraceKey:  "stacktrace",
 		LineEnding:     zapcore.DefaultLineEnding,
-		EncodeLevel:    zapcore.LowercaseLevelEncoder,
+		EncodeLevel:    zapcore.CapitalLevelEncoder,
 		EncodeTime:     zapcore.ISO8601TimeEncoder,
 		EncodeDuration: zapcore.SecondsDurationEncoder,
-		EncodeCaller:   zapcore.FullCallerEncoder,
-		EncodeName:     zapcore.FullNameEncoder,
+		EncodeCaller: func(caller zapcore.EntryCaller, enc zapcore.PrimitiveArrayEncoder) {
+			enc.AppendString("[" + caller.TrimmedPath() + "]")
+		},
+		EncodeName: zapcore.FullNameEncoder,
 	}
 
 	infoCore := zapcore.NewCore(
